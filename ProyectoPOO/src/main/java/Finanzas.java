@@ -1,73 +1,129 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Finanzas {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        double saldoActual = 0;
-        int numCategorias = 5; // Puedes ajustar el número de categorías según tus necesidades.
-        double[] gastosPorCategoria = new double[numCategorias];
-        double totalGastado = 0;
-        String[] categorias = new String[numCategorias];
+    private static Scanner scanner = new Scanner(System.in);
+    private static double saldoActual = 0;
+    private static int numCategorias = 5;
+    private static double[] gastosPorCategoria = new double[numCategorias];
+    private static double totalGastado = 0;
+    private static ArrayList<String>[] productosPorCategoria = new ArrayList[numCategorias];
+    private static String[] categorias = new String[numCategorias];
 
-        // Inicializa las categorías
+    public static void main(String[] args) {
+        inicializarCategorias();
+        ejecutarMenu();
+    }
+
+    private static void inicializarCategorias() {
         categorias[0] = "Alimentación";
         categorias[1] = "Transporte";
-        categorias[2] = "Gastos personales";
+        categorias[2] = "Entretenimiento";
         categorias[3] = "Educación";
         categorias[4] = "Otras";
 
+        for (int i = 0; i < numCategorias; i++) {
+            productosPorCategoria[i] = new ArrayList<>();
+        }
+    }
+
+    private static void ejecutarMenu() {
         while (true) {
-            System.out.println("Fondos totales $"+ saldoActual);
-            System.out.println("¿Qué deseas hacer?");
-            System.out.println("1. Añadir dinero");
-            System.out.println("2. Restar dinero");
-            System.out.println("3. Revisar gastos por categoría");
-            System.out.println("4. Salir");
-            int opcion = scanner.nextInt();
+            mostrarMenu();
+            int opcion = obtenerEntradaUsuario();
+            scanner.nextLine(); // Limpiar el buffer
 
             switch (opcion) {
                 case 1:
-                    System.out.print("Ingresa la cantidad a añadir: $");
-                    double cantidadAAnadir = scanner.nextDouble();
-                    saldoActual += cantidadAAnadir;
+                    anadirDinero();
                     break;
                 case 2:
-                    System.out.print("Ingresa la cantidad a restar: $");
-                    double cantidadARestar = scanner.nextDouble();
-                    scanner.nextLine(); // Limpiar el buffer
-                    System.out.println("Categorías disponibles:");
-
-                    for (int i = 0; i < numCategorias; i++) {
-                        System.out.println((i + 1) + ". " + categorias[i]);
-                    }
-
-                    System.out.print("Selecciona la categoría en la que gastaste: ");
-                    int categoriaSeleccionada = scanner.nextInt();
-                    scanner.nextLine(); // Limpiar el buffer
-                    if (categoriaSeleccionada >= 1 && categoriaSeleccionada <= numCategorias) {
-                        saldoActual -= cantidadARestar;
-                        gastosPorCategoria[categoriaSeleccionada - 1] += cantidadARestar;
-                        totalGastado += cantidadARestar;
-                        System.out.println("Gasto registrado en la categoría: " + categorias[categoriaSeleccionada - 1]);
-                    } else {
-                        System.out.println("Categoría no válida.");
-                    }
+                    restarDinero();
                     break;
                 case 3:
-                    System.out.println("Porcentaje gastado por categoría:");
-
-                    for (int i = 0; i < numCategorias; i++) {
-                        double porcentaje = (gastosPorCategoria[i] / totalGastado) * 100;
-                        System.out.println(categorias[i] + ": $" + gastosPorCategoria[i] + " (" + porcentaje + "% del total gastado)");
-                    }
+                    mostrarGastosPorCategoria();
                     break;
                 case 4:
-                    System.out.println("¡Hasta luego!");
-                    scanner.close();
-                    System.exit(0);
+                    salir();
+                    break;
                 default:
                     System.out.println("Opción no válida. Por favor, selecciona una opción válida.");
             }
         }
+    }
+
+    private static void mostrarMenu() {
+        System.out.println("Fondos totales: $" + saldoActual);
+        System.out.println("¿Qué deseas hacer?");
+        System.out.println("1. Añadir dinero a los fondos totales");
+        System.out.println("2. Registrar compra");
+        System.out.println("3. Revisar gastos por categoría");
+        System.out.println("4. Salir");
+    }
+
+    private static void anadirDinero() {
+        System.out.print("Ingresa la cantidad a añadir: $");
+        double cantidadAAnadir = obtenerEntradaUsuario();
+        saldoActual += cantidadAAnadir;
+    }
+
+    private static void restarDinero() {
+        System.out.print("Ingresa la cantidad a restar: $");
+        double cantidadARestar = obtenerEntradaUsuario();
+        System.out.println("Categorías disponibles:");
+
+        for (int i = 0; i < numCategorias; i++) {
+            System.out.println((i + 1) + ". " + categorias[i]);
+        }
+
+        System.out.print("Selecciona la categoría en la que gastaste: ");
+        int categoriaSeleccionada = obtenerEntradaUsuario();
+        if (categoriaSeleccionada >= 1 && categoriaSeleccionada <= numCategorias) {
+            String nombreProducto = obtenerNombreProducto();
+            registrarGasto(cantidadARestar, categoriaSeleccionada, nombreProducto);
+        } else {
+            System.out.println("Categoría no válida.");
+        }
+    }
+    private static void registrarGasto(double cantidadARestar, int categoriaSeleccionada, String nombreProducto) {
+        saldoActual -= cantidadARestar;
+        gastosPorCategoria[categoriaSeleccionada - 1] += cantidadARestar;
+        totalGastado += cantidadARestar;
+        productosPorCategoria[categoriaSeleccionada - 1].add(nombreProducto);
+        System.out.println("Gasto registrado en la categoría: " + categorias[categoriaSeleccionada - 1]);
+    }
+
+    private static String obtenerNombreProducto() {
+        System.out.print("Ingresa el nombre del producto: ");
+        return scanner.nextLine();
+    }
+
+
+    private static void mostrarGastosPorCategoria() {
+        System.out.println("Porcentaje gastado por categoría:");
+
+        for (int i = 0; i < numCategorias; i++) {
+            double porcentaje = (gastosPorCategoria[i] / totalGastado) * 100;
+            System.out.println(categorias[i] + ": $" + gastosPorCategoria[i] + " (" + porcentaje + "% del total gastado)");
+            mostrarProductosEnCategoria(i);
+        }
+    }
+
+    private static void mostrarProductosEnCategoria(int categoriaIndex) {
+        System.out.println("Productos en esta categoría:");
+
+        for (String producto : productosPorCategoria[categoriaIndex]) {
+            System.out.println("- " + producto);
+        }
+    }
+
+    private static void salir() {
+        System.out.println("¡Hasta luego!");
+        scanner.close();
+        System.exit(0);
+    }
+
+    private static int obtenerEntradaUsuario() {
+        return scanner.nextInt();
     }
 }
