@@ -2,125 +2,132 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    private static double montoInicial;
-    private static ArrayList<Producto> listaProductos = new ArrayList<>();
-
-    public enum Categoria {
-        ELECTRONICA,
-        ROPA,
-        ALIMENTOS,
-        GASTOSPERSONALES,
-        GASTOSHOGAS,
-        OTROS
-    }
+    private static Scanner scanner = new Scanner(System.in);
+    private static double saldoActual = 0;
+    private static int numCategorias = 5;
+    private static double[] gastosPorCategoria = new double[numCategorias];
+    private static double totalGastado = 0;
+    private static ArrayList<String>[] productosPorCategoria = new ArrayList[numCategorias];
+    private static String[] categorias = new String[numCategorias];
 
     public static void main(String[] args) {
-        iniciarSistema();
+        inicializarCategorias();
+        ejecutarMenu();
+    }
+
+    private static void inicializarCategorias() {
+        categorias[0] = "Alimentación";
+        categorias[1] = "Transporte";
+        categorias[2] = "Entretenimiento";
+        categorias[3] = "Educación";
+        categorias[4] = "Otras";
+
+        for (int i = 0; i < numCategorias; i++) {
+            productosPorCategoria[i] = new ArrayList<>();
+        }
+    }
+
+    private static void ejecutarMenu() {
         while (true) {
-            int opcion = mostrarMenu();
+            mostrarMenu();
+            int opcion = obtenerEntradaUsuario();
+            scanner.nextLine(); // Limpiar el buffer
+
             switch (opcion) {
                 case 1:
-                    agregarProducto();
+                    anadirDinero();
                     break;
                 case 2:
-                    mostrarListaProductosYMontoRestante();
+                    restarDinero();
                     break;
                 case 3:
-                    salirDelPrograma();
+                    mostrarGastosPorCategoria();
+                    break;
+                case 4:
+                    salir();
                     break;
                 default:
-                    System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
+                    System.out.println("Opción no válida. Por favor, selecciona una opción válida.");
             }
         }
     }
 
-    public static void iniciarSistema() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Ingrese el monto inicial: ");
-        montoInicial = scanner.nextDouble();
+    private static void mostrarMenu() {
+        System.out.println("Fondos totales: $" + saldoActual);
+        System.out.println("¿Qué deseas hacer?");
+        System.out.println("1. Añadir dinero a los fondos totales");
+        System.out.println("2. Registrar compra");
+        System.out.println("3. Revisar gastos por categoría");
+        System.out.println("4. Salir");
     }
 
-    public static int mostrarMenu() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Menú de opciones:");
-        System.out.println("1. Agregar producto");
-        System.out.println("2. Mostrar lista de productos y monto restante");
-        System.out.println("3. Salir");
-        System.out.print("Seleccione una opción: ");
-        return scanner.nextInt();
+    private static void anadirDinero() {
+        System.out.print("Ingresa la cantidad a añadir: $");
+        double cantidadAAnadir = obtenerEntradaUsuario();
+        saldoActual += cantidadAAnadir;
     }
 
-    public static void agregarProducto() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Ingrese el nombre del producto: ");
-        String nombre = scanner.next();
-        System.out.print("Ingrese el precio del producto: ");
-        double precio = scanner.nextDouble();
+    private static void restarDinero() {
+        System.out.print("Ingresa la cantidad a restar: $");
+        double cantidadARestar = obtenerEntradaUsuario();
+        System.out.println("Categorías disponibles:");
 
-        Categoria categoria = elegirCategoria();
-
-        Producto producto = new Producto(nombre, precio, categoria);
-        listaProductos.add(producto);
-        montoInicial -= precio;
-        System.out.println("Producto agregado correctamente.");
-    }
-
-    public static void mostrarListaProductosYMontoRestante() {
-        System.out.println("Lista de productos:");
-
-        for (Producto producto : listaProductos) {
-            System.out.println("Nombre: " + producto.getNombre() + ", Precio: " + producto.getPrecio() + ", Categoria: " + producto.getCategoria());
+        for (int i = 0; i < numCategorias; i++) {
+            System.out.println((i + 1) + ". " + categorias[i]);
         }
 
-        System.out.println("Monto restante: " + montoInicial);
+        System.out.print("Selecciona la categoría en la que gastaste: ");
+        int categoriaSeleccionada = obtenerEntradaUsuario();
+        if (categoriaSeleccionada >= 1 && categoriaSeleccionada <= numCategorias) {
+            String nombreProducto = obtenerNombreProducto();
+            registrarGasto(cantidadARestar, categoriaSeleccionada, nombreProducto);
+        } else {
+            System.out.println("Categoría no válida.");
+        }
     }
 
-    public static void salirDelPrograma() {
-        System.out.println("¡Gracias por usar el sistema!");
+
+    private static String obtenerNombreProducto() {
+        Scanner scanner1 = new Scanner(System.in);
+        System.out.print("Ingresa el nombre del producto: ");
+        String nombre = scanner1.next();
+        return nombre;
+    }
+
+    private static void registrarGasto(double cantidadARestar, int categoriaSeleccionada, String nombreProducto) {
+        saldoActual -= cantidadARestar;
+        gastosPorCategoria[categoriaSeleccionada - 1] += cantidadARestar;
+        totalGastado += cantidadARestar;
+        productosPorCategoria[categoriaSeleccionada - 1].add(nombreProducto);
+    }
+
+
+
+    private static void mostrarGastosPorCategoria() {
+        System.out.println("Porcentaje gastado por categoría:");
+
+        for (int i = 0; i < numCategorias; i++) {
+            double porcentaje = (gastosPorCategoria[i] / totalGastado) * 100;
+            System.out.println(categorias[i] +": $" + gastosPorCategoria[i] + " (" + porcentaje + "% del total gastado)");
+            mostrarProductosEnCategoria(i);
+        }
+    }
+
+    private static void mostrarProductosEnCategoria(int categoriaIndex) {
+        System.out.println("Productos en esta categoría:");
+
+        for (String producto : productosPorCategoria[categoriaIndex]) {
+            System.out.println("- " + producto);
+        }
+    }
+
+    private static void salir() {
+        System.out.println("¡Hasta luego!");
+        scanner.close();
         System.exit(0);
     }
 
-    public static Categoria elegirCategoria() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Categorías:");
-        int i = 1;
-        for (Categoria categoria : Categoria.values()) {
-            System.out.println(i + ". " + categoria);
-            i++;
-        }
-        System.out.print("Seleccione una categoría: ");
-        int opcion = scanner.nextInt();
-
-        if (opcion < 1 || opcion > Categoria.values().length) {
-            System.out.println("Opción inválida. Seleccionando la categoría por defecto (OTROS).");
-            return Categoria.OTROS;
-        }
-
-        return Categoria.values()[opcion - 1];
-    }
-
-    static class Producto {
-        private String nombre;
-        private double precio;
-        private Categoria categoria;
-
-        public Producto(String nombre, double precio, Categoria categoria) {
-            this.nombre = nombre;
-            this.precio = precio;
-            this.categoria = categoria;
-        }
-
-        public String getNombre() {
-            return nombre;
-        }
-
-        public double getPrecio() {
-            return precio;
-        }
-
-        public Categoria getCategoria() {
-            return categoria;
-        }
+    private static int obtenerEntradaUsuario() {
+        return scanner.nextInt();
     }
 }
-
