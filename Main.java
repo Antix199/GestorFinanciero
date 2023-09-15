@@ -1,14 +1,16 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
-    private static double saldoActual = 0;
+    private static int saldoActual = 0;
     private static int numCategorias = 5;
     private static double[] gastosPorCategoria = new double[numCategorias];
     private static double totalGastado = 0;
     private static ArrayList<String>[] productosPorCategoria = new ArrayList[numCategorias];
     private static String[] categorias = new String[numCategorias];
+
 
     public static void main(String[] args) {
         inicializarCategorias();
@@ -25,6 +27,38 @@ public class Main {
         for (int i = 0; i < numCategorias; i++) {
             productosPorCategoria[i] = new ArrayList<>();
         }
+    }
+
+    public static int obtenerEntradaUsuario() {
+        Scanner scanner = new Scanner(System.in);
+        int numero = 0;
+        boolean entradaValida = false;
+
+        while (!entradaValida) {
+            try {
+                numero = Integer.parseInt(scanner.nextLine());
+                if (numero < 0) {
+                    throw new IllegalArgumentException("No se aceptan números negativos.");
+                }
+                entradaValida = true; // Si llega aquí, la entrada es válida
+            } catch (NumberFormatException e) {
+                System.out.println("Debe ingresar un número entero.");
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        return numero;
+    }
+
+
+    private static void mostrarMenu() {
+        System.out.println("Fondo actual: $" + saldoActual);
+        System.out.println("¿Qué deseas hacer?");
+        System.out.println("1. Añadir dinero al fondo actual");
+        System.out.println("2. Registrar compra");
+        System.out.println("3. Revisar gastos por categoría");
+        System.out.println("4. Salir");
     }
 
     private static void ejecutarMenu() {
@@ -52,18 +86,9 @@ public class Main {
         }
     }
 
-    private static void mostrarMenu() {
-        System.out.println("Fondos totales: $" + saldoActual);
-        System.out.println("¿Qué deseas hacer?");
-        System.out.println("1. Añadir dinero a los fondos totales");
-        System.out.println("2. Registrar compra");
-        System.out.println("3. Revisar gastos por categoría");
-        System.out.println("4. Salir");
-    }
-
     private static void anadirDinero() {
         System.out.print("Ingresa la cantidad a añadir: $");
-        double cantidadAAnadir = obtenerEntradaUsuario();
+        int cantidadAAnadir = obtenerEntradaUsuario();
         saldoActual += cantidadAAnadir;
     }
 
@@ -86,11 +111,9 @@ public class Main {
         }
     }
 
-
     private static String obtenerNombreProducto() {
-        Scanner scanner1 = new Scanner(System.in);
         System.out.print("Ingresa el nombre del producto: ");
-        String nombre = scanner1.next();
+        String nombre = scanner.next(); // Usar el scanner de la clase
         return nombre;
     }
 
@@ -127,7 +150,4 @@ public class Main {
         System.exit(0);
     }
 
-    private static int obtenerEntradaUsuario() {
-        return scanner.nextInt();
-    }
 }
