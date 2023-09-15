@@ -105,7 +105,7 @@ public class Finanzas {
 
     private static String obtenerNombreProducto() {
         System.out.print("Ingresa el nombre del producto: ");
-        return scanner.next();
+        return scanner.nextLine();
     }
 
 
