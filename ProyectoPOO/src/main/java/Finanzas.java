@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class Finanzas {
     private static Scanner scanner = new Scanner(System.in);
@@ -30,9 +31,7 @@ public class Finanzas {
     private static void ejecutarMenu() {
         while (true) {
             mostrarMenu();
-            int opcion = obtenerEntradaUsuario();
-            scanner.nextLine(); // Limpiar el buffer
-
+            int opcion = (int) validarEntradaUsuario();
             switch (opcion) {
                 case 1:
                     anadirDinero();
@@ -49,6 +48,7 @@ public class Finanzas {
                 default:
                     System.out.println("Opción no válida. Por favor, selecciona una opción válida.");
             }
+
         }
     }
 
@@ -56,35 +56,45 @@ public class Finanzas {
         System.out.println("Fondos totales: $" + saldoActual);
         System.out.println("¿Qué deseas hacer?");
         System.out.println("1. Añadir dinero a los fondos totales");
-        System.out.println("2. Registrar compra");
+        System.out.println("2. Registrar un gasto");
         System.out.println("3. Revisar gastos por categoría");
         System.out.println("4. Salir");
     }
 
     private static void anadirDinero() {
         System.out.print("Ingresa la cantidad a añadir: $");
-        double cantidadAAnadir = obtenerEntradaUsuario();
-        saldoActual += cantidadAAnadir;
+        double cantidadAAnadir = validarEntradaUsuario();
+        if (cantidadAAnadir > 0){
+            saldoActual += cantidadAAnadir;
+        }else{
+            System.out.println("No puedes añadir una cantidad negativa o nula");
+        }
+
     }
 
     private static void restarDinero() {
         System.out.print("Ingresa la cantidad a restar: $");
-        double cantidadARestar = obtenerEntradaUsuario();
-        System.out.println("Categorías disponibles:");
+        double cantidadARestar = validarEntradaUsuario();
+        if (cantidadARestar > 0){
+            System.out.println("Categorías disponibles:");
 
-        for (int i = 0; i < numCategorias; i++) {
-            System.out.println((i + 1) + ". " + categorias[i]);
-        }
+            for (int i = 0; i < numCategorias; i++) {
+                System.out.println((i + 1) + ". " + categorias[i]);
+            }
 
-        System.out.print("Selecciona la categoría en la que gastaste: ");
-        int categoriaSeleccionada = obtenerEntradaUsuario();
-        if (categoriaSeleccionada >= 1 && categoriaSeleccionada <= numCategorias) {
-            String nombreProducto = obtenerNombreProducto();
-            registrarGasto(cantidadARestar, categoriaSeleccionada, nombreProducto);
-        } else {
-            System.out.println("Categoría no válida.");
+            System.out.print("Selecciona la categoría en la que gastaste: ");
+            int categoriaSeleccionada = (int) validarEntradaUsuario();
+            if (categoriaSeleccionada >= 1 && categoriaSeleccionada <= numCategorias) {
+                String nombreProducto = obtenerNombreProducto();
+                registrarGasto(cantidadARestar, categoriaSeleccionada, nombreProducto);
+            } else {
+                System.out.println("Categoría no válida.");
+            }
+        }else{
+            System.out.println("No puedes restar una cantidad negativao nula.");
         }
     }
+
     private static void registrarGasto(double cantidadARestar, int categoriaSeleccionada, String nombreProducto) {
         saldoActual -= cantidadARestar;
         gastosPorCategoria[categoriaSeleccionada - 1] += cantidadARestar;
@@ -95,7 +105,7 @@ public class Finanzas {
 
     private static String obtenerNombreProducto() {
         System.out.print("Ingresa el nombre del producto: ");
-        return scanner.nextLine();
+        return scanner.next();
     }
 
 
@@ -123,7 +133,17 @@ public class Finanzas {
         System.exit(0);
     }
 
-    private static int obtenerEntradaUsuario() {
-        return scanner.nextInt();
+
+    private static double validarEntradaUsuario() {
+        while (true) {
+            try {
+                double valor = scanner.nextDouble();
+                scanner.nextLine();
+                return valor;
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada no válida. Por favor, ingresa un número.");
+                scanner.nextLine();
+            }
+        }
     }
 }
