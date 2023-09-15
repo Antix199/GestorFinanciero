@@ -4,7 +4,7 @@ import java.util.InputMismatchException;
 
 public class Finanzas {
     private static Scanner scanner = new Scanner(System.in);
-    private static double saldoActual = 0;
+    protected static double saldoActual = 0;
     private static int numCategorias = 5;
     private static double[] gastosPorCategoria = new double[numCategorias];
     private static double totalGastado = 0;
@@ -61,7 +61,7 @@ public class Finanzas {
         System.out.println("4. Salir");
     }
 
-    private static void anadirDinero() {
+    protected static void anadirDinero() {
         System.out.print("Ingresa la cantidad a añadir: $");
         double cantidadAAnadir = validarEntradaUsuario();
         if (cantidadAAnadir > 0){
