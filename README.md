@@ -1,4 +1,4 @@
-#VIDEO PRESENTACIÓN PRIME AVANCE:
+#VIDEO PRESENTACIÓN PRIMER AVANCE:
 https://youtu.be/tOei_rvPUv4?si=FKd4h_lMZPbo19GO
 #
 #Carta Gantt:
