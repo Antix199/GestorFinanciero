@@ -1,3 +1,6 @@
+#VIDEO PRESENTACIÓN PRIME AVANCE:
+https://youtu.be/tOei_rvPUv4?si=FKd4h_lMZPbo19GO
+#
 #Carta Gantt:
 https://docs.google.com/spreadsheets/d/1uG6kyz_ILydenWOTS5FCMyAef9Q4OGsgvuOGaYy2cKs/edit?usp=sharing
 #
