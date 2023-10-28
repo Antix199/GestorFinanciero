@@ -1,24 +1,29 @@
+
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.File;
 
 public class gestorGastos {
-
     public static void guardarGastoEnCSV(String nombre, double cantidad, String categoria, String correoUsuario) {
-        String rutaArchivo = System.getProperty("user.dir") + File.separator + "gastos(" + correoUsuario + ").csv";
+        String rutaDirectorio = System.getProperty("user.dir") + File.separator + "gastos_por_usuarios";
+        File directorio = new File(rutaDirectorio);
+        directorio.mkdirs(); // Crear el directorio si no existe
 
-        File archivo = new File(rutaArchivo);
 
-        boolean existeArchivo = archivo.exists();
+        String rutaArchivo = rutaDirectorio + File.separator + correoUsuario + "_gastos.csv";
 
         try {
-            FileWriter escritor = new FileWriter(archivo, true); // Usa la variable 'archivo' en lugar de 'rutaArchivo'
+            File archivo = new File(rutaArchivo);
+            boolean existeArchivo = archivo.exists();
+
+            FileWriter escritor = new FileWriter(rutaArchivo, true);
 
             if (!existeArchivo) {
-                escritor.write("Nombre del Producto,Precio,Categoria,Usuario\n");
+                escritor.write("Nombre del Producto,Precio,Categoria\n");
             }
 
-            escritor.write(nombre + "," + cantidad + "," + categoria + "," + correoUsuario + "\n");
+            escritor.write(nombre + "," + cantidad + "," + categoria + "\n");
+
 
             escritor.close();
             System.out.println("Gasto registrado en el archivo CSV.");

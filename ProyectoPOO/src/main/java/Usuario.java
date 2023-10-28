@@ -3,8 +3,10 @@ import java.util.*;
 
 public class Usuario {
 
+
     private static Scanner scanner = new Scanner(System.in);
     private static String rutaUsuarios = System.getProperty("user.dir") + File.separator + "usuarios1.csv";
+
 
     private String nombre;
     private String correo;
@@ -101,12 +103,9 @@ public class Usuario {
     public String getNombre() {
         return nombre;
     }
-
-
-    public String getCorreo() {
-        return correo;
+  
+    public String getCorreo() {return correo;
     }
-
 
 
     public static boolean validarFormatoCorreo(String correo) {

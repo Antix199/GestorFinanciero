@@ -19,8 +19,7 @@ public class InicioUsuario {
                     Usuario usuario = Usuario.iniciarSesion();
                     if (usuario != null) {
                         System.out.println("Inicio de sesión exitoso. ¡Bienvenido, " + usuario.getNombre() + "!");
-                        String correoUsuario = usuario.getCorreo(); // Obtenemos el correo del usuario
-                        String rutaUsuarios = System.getProperty("user.dir") + File.separator + "gastos(" + correoUsuario + ").csv";
+
                         GestorCategorias.inicializarCategorias();
                         Menu menu = new Menu(Finanzas.getCategorias(), Finanzas.getProductosPorCategoria());
                         Calculadora calculadora = new Calculadora();
@@ -51,10 +50,6 @@ public class InicioUsuario {
             System.out.print("Ingresa tu correo electrónico: ");
             correo = scanner.nextLine();
 
-            if (Usuario.correoExiste(correo)) {
-                System.out.println("Correo ya en uso. Usa otro.");
-            }
-        } while (Usuario.correoExiste(correo));
 
         String contrasena;
         do {
@@ -64,6 +59,7 @@ public class InicioUsuario {
 
         System.out.println("¿Desea continuar con la creación de la cuenta? (s/n)");
         String respuesta = scanner.nextLine().toLowerCase();
+
 
         if (respuesta.equals("s")) {
             Usuario nuevoUsuario = new Usuario(nombre, correo, contrasena);

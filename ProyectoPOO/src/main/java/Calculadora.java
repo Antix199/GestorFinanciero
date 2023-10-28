@@ -56,7 +56,8 @@ class Calculadora{
     public void restarDinero(Usuario usuario, Scanner scanner) {
         System.out.print("Ingresa la cantidad a restar: $");
         double cantidadARestar = validador.validarInt();
-        if (cantidadARestar > 0) {
+
+        if (cantidadARestar > 0){
             System.out.println("Categorías disponibles:");
 
             for (int i = 0; i < numCategorias; i++) {
@@ -64,11 +65,11 @@ class Calculadora{
             }
 
             System.out.print("Selecciona la categoría en la que gastaste: ");
-            int categoriaSeleccionada = (int) validador.validarInt();
+            int categoriaSeleccionada = (int) validador.validarInt
             if (categoriaSeleccionada >= 1 && categoriaSeleccionada <= numCategorias) {
-                String nombreProducto = obtenerNombreProducto(scanner);
-                String categoria = categorias[categoriaSeleccionada - 1];
-                registrarGasto(cantidadARestar, categoriaSeleccionada, nombreProducto, categoria, usuario);
+                String nombreProducto = obtenerNombreProducto(scanner
+                registrarGasto(cantidadARestar, categoriaSeleccionada, nombreProducto, usuario);
+
             } else {
                 System.out.println("Categoría no válida.");
             }
@@ -78,15 +79,17 @@ class Calculadora{
     }
 
 
+    private void registrarGasto(double cantidadARestar, int categoriaSeleccionada, String nombreProducto, Usuario usuario) {
 
-    private void registrarGasto(double cantidadARestar, int categoriaSeleccionada, String nombreProducto, String categoriaElegida, Usuario usuario) {
         saldoActual -= cantidadARestar;
         gastosPorCategoria[categoriaSeleccionada - 1] += cantidadARestar;
         totalGastado += cantidadARestar;
         productosPorCategoria[categoriaSeleccionada - 1].add(nombreProducto);
         String categoria = categorias[categoriaSeleccionada - 1];
         System.out.println("Gasto registrado en la categoría: " + categoria);
-        gestorGastos.guardarGastoEnCSV(nombreProducto, cantidadARestar, categoriaElegida, usuario.getCorreo());
+
+        // Llama al método para guardar en el archivo CSV
+        gestorGastos.guardarGastoEnCSV(nombreProducto, cantidadARestar, categoria, usuario.getCorreo());
     }
 
 }
