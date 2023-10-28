@@ -2,11 +2,8 @@ import java.io.*;
 import java.util.*;
 
 public class Usuario {
-
-
     private static Scanner scanner = new Scanner(System.in);
-    private static String rutaUsuarios = System.getProperty("user.dir") + File.separator + "usuarios1.csv";
-
+    private static String rutaUsuarios = System.getProperty("user.dir") + File.separator + "usuarios.csv";
 
     private String nombre;
     private String correo;
@@ -17,7 +14,6 @@ public class Usuario {
         this.correo = correo;
         this.contrasena = contrasena;
     }
-
 
     public static Usuario iniciarSesion() {
         System.out.print("Ingresa tu correo electrónico: ");
@@ -103,10 +99,7 @@ public class Usuario {
     public String getNombre() {
         return nombre;
     }
-  
-    public String getCorreo() {return correo;
-    }
-
+    public String getCorreo(){ return correo;}
 
     public static boolean validarFormatoCorreo(String correo) {
         String regex = "^[\\w.-]+@[a-zA-Z]+\\.[a-zA-Z]{2,}$";

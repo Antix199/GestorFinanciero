@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.io.File;
 
 public class InicioUsuario {
     public static void main(String[] args) {
@@ -18,9 +17,8 @@ public class InicioUsuario {
                 case 1:
                     Usuario usuario = Usuario.iniciarSesion();
                     if (usuario != null) {
-
                         GestorCategorias.inicializarCategorias();
-                        Menu menu = new Menu(Finanzas.getCategorias(), Finanzas.getProductosPorCategoria());
+                        Menu menu = new Menu(GestorCategorias.getCategorias(), GestorCategorias.getProductosPorCategoria());
                         Calculadora calculadora = new Calculadora();
                         Finanzas.ejecutarMenu(usuario, menu, calculadora);
                     }
@@ -44,11 +42,18 @@ public class InicioUsuario {
         System.out.print("Ingresa tu nombre: ");
         String nombre = scanner.nextLine();
 
+
         String correo;
         do {
             System.out.print("Ingresa tu correo electrónico: ");
             correo = scanner.nextLine();
 
+            if (!Usuario.validarFormatoCorreo(correo)) {
+                System.out.println("El formato del correo electrónico no es válido. Por favor, inténtalo de nuevo.");
+            } else if (Usuario.correoExiste(correo)) {
+                System.out.println("Correo ya en uso. Usa otro.");
+            }
+        } while (!Usuario.validarFormatoCorreo(correo) || Usuario.correoExiste(correo));
 
         String contrasena;
         do {

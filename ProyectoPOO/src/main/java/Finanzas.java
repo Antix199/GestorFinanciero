@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -9,6 +10,7 @@ public class Finanzas {
     private static ValidarEntradaUsuario validador = new ValidarEntradaUsuario();
 
     public static void main(String[] args) {
+// 
         // Crear una instancia de la Calculadora
         Calculadora calculadora = new Calculadora();
 
@@ -24,6 +26,7 @@ public class Finanzas {
             Menu menu = new Menu(categorias, productosPorCategoria);
 
             // Ejecutar el menú con el usuario autenticado y el menú
+// 
             ejecutarMenu(usuario, menu, calculadora);
         } else {
             System.out.println("No se pudo iniciar sesión. Saliendo del programa.");

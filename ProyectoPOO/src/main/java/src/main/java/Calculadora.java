@@ -56,7 +56,6 @@ class Calculadora{
     public void restarDinero(Usuario usuario, Scanner scanner) {
         System.out.print("Ingresa la cantidad a restar: $");
         double cantidadARestar = validador.validarInt();
-
         if (cantidadARestar > 0){
             System.out.println("Categorías disponibles:");
 
@@ -65,11 +64,10 @@ class Calculadora{
             }
 
             System.out.print("Selecciona la categoría en la que gastaste: ");
-            int categoriaSeleccionada = (int) validador.validarInt
+            int categoriaSeleccionada = (int) validador.validarInt();
             if (categoriaSeleccionada >= 1 && categoriaSeleccionada <= numCategorias) {
-                String nombreProducto = obtenerNombreProducto(scanner
+                String nombreProducto = obtenerNombreProducto(scanner);
                 registrarGasto(cantidadARestar, categoriaSeleccionada, nombreProducto, usuario);
-
             } else {
                 System.out.println("Categoría no válida.");
             }
@@ -80,7 +78,6 @@ class Calculadora{
 
 
     private void registrarGasto(double cantidadARestar, int categoriaSeleccionada, String nombreProducto, Usuario usuario) {
-
         saldoActual -= cantidadARestar;
         gastosPorCategoria[categoriaSeleccionada - 1] += cantidadARestar;
         totalGastado += cantidadARestar;
@@ -89,7 +86,6 @@ class Calculadora{
         System.out.println("Gasto registrado en la categoría: " + categoria);
 
         // Llama al método para guardar en el archivo CSV
-        Gasto.guardarGastoEnCSV(nombreProducto, cantidadARestar, categoria, usuario.getCorreo());
+        gestorGastos.guardarGastoEnCSV(nombreProducto, cantidadARestar, categoria, usuario.getCorreo());
     }
-
 }
