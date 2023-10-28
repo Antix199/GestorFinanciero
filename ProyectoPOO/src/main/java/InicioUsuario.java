@@ -18,7 +18,6 @@ public class InicioUsuario {
                 case 1:
                     Usuario usuario = Usuario.iniciarSesion();
                     if (usuario != null) {
-                        System.out.println("Inicio de sesión exitoso. ¡Bienvenido, " + usuario.getNombre() + "!");
 
                         GestorCategorias.inicializarCategorias();
                         Menu menu = new Menu(Finanzas.getCategorias(), Finanzas.getProductosPorCategoria());
