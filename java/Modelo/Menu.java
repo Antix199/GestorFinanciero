@@ -1,6 +1,7 @@
 package Modelo;
 
 import Datos.Saldo;
+import Datos.DatosGastos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +51,9 @@ class Menu {
                     finanzas.restarDinero(usuario, scanner);
                     break;
                 case 3:
-                    List<Gasto> gastos = Gasto.cargarGastos(usuario.getCorreo());
+                    List<Gasto> gastos = DatosGastos.cargarGastos(usuario.getCorreo());
                     Finanzas.mostrarGastosPorCategoria(gastos);
+                    CalculadoraPorcentajeGastos.mostrarPorcentajeGastos(gastos);
                     break;
                 case 4:
                     Saldo.guardarSaldolCSV(usuario);

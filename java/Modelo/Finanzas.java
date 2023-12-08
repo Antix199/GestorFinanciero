@@ -1,5 +1,6 @@
 package Modelo;
 
+import Datos.DatosGastos;
 import Datos.Saldo;
 
 import java.util.*;
@@ -19,7 +20,7 @@ public class Finanzas {
 
     protected void anadirDinero(Usuario usuario) {
         System.out.print("Ingresa la cantidad a añadir: $");
-        double cantidadAAnadir = validador.validarInt();
+        double cantidadAAnadir = validador.validarDouble();
         if (cantidadAAnadir > 0){
             saldoActual += cantidadAAnadir;
         }else{
@@ -78,17 +79,15 @@ public class Finanzas {
 
     public void restarDinero(Usuario usuario, Scanner scanner) {
         System.out.print("Ingresa la cantidad a restar: $");
-        double cantidadARestar = validador.validarInt();
-        if (cantidadARestar > 0){
-            System.out.println("Categorías disponibles:");
+        double cantidadARestar = validador.validarDouble();
 
-            for (int i = 0; i < numCategorias; i++) {
-                System.out.println((i + 1) + ". " + categorias[i]);
-            }
+        if (esCantidadValida(cantidadARestar)) {
+            mostrarCategoriasDisponibles();
 
             System.out.print("Selecciona la categoría en la que gastaste: ");
             int categoriaSeleccionada = validador.validarInt();
-            if (categoriaSeleccionada >= 1 && categoriaSeleccionada <= numCategorias) {
+
+            if (esCategoriaValida(categoriaSeleccionada)) {
                 String nombreProducto = obtenerNombreProducto(scanner);
                 registrarGasto(cantidadARestar, categoriaSeleccionada, nombreProducto, usuario);
             } else {
@@ -99,6 +98,26 @@ public class Finanzas {
         }
     }
 
+    private boolean esCantidadValida(double cantidad) {
+        if (cantidad > 0) {
+            return true;
+        } else {
+            System.out.println("La cantidad debe ser mayor que cero.");
+            return false;
+        }
+    }
+
+    private void mostrarCategoriasDisponibles() {
+        System.out.println("Categorías disponibles:");
+
+        for (int i = 0; i < numCategorias; i++) {
+            System.out.println((i + 1) + ". " + categorias[i]);
+        }
+    }
+
+    private boolean esCategoriaValida(int categoriaSeleccionada) {
+        return categoriaSeleccionada >= 1 && categoriaSeleccionada <= numCategorias;
+    }
 
     private void registrarGasto(double cantidadARestar, int categoriaSeleccionada, String nombreProducto, Usuario usuario) {
         saldoActual -= cantidadARestar;
@@ -108,7 +127,6 @@ public class Finanzas {
         String categoria = categorias[categoriaSeleccionada - 1];
         System.out.println("Gasto registrado en la categoría: " + categoria);
 
-        // Llama al método para guardar en el archivo CSV
-        Gasto.guardarGastoEnCSV(nombreProducto, cantidadARestar, categoria, usuario.getCorreo());
+        DatosGastos.guardarGastoEnCSV(nombreProducto, cantidadARestar, categoria, usuario.getCorreo());
     }
 }

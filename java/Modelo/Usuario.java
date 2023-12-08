@@ -34,12 +34,12 @@ public class Usuario {
 
     public static boolean correoExiste(String correo) {
         List<Usuario> usuarios = cargarUsuarios();
-
-        return usuarios.stream()
-                .anyMatch(usuario -> usuario.correo.equals(correo));
+        return usuarios.stream().anyMatch(usuario -> usuario.correo.equals(correo));
     }
 
-    private static List<Usuario> cargarUsuarios() {
+
+
+    public static List<Usuario> cargarUsuarios() {
         List<Usuario> usuarios = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(rutaUsuarios))) {
@@ -50,7 +50,7 @@ public class Usuario {
                 if (partes.length == 3) {
                     Usuario usuario = new Usuario(partes[0], partes[1], partes[2]);
                     usuarios.add(usuario);
-                } //Podemos incluir manejo personalizado en caso de que el archivo tenga mal los datos
+                }
             }
         } catch (IOException e) {
             System.out.println("Error al cargar los datos de usuario, por favor revise la ruta y datos del archivo.");

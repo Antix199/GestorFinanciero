@@ -13,11 +13,11 @@ public class InicioUsuario {
 
             switch (opcion) {
                 case 1:
-                    iniciarSesionYManejarFinanzas();
+                    iniciarSesionUsuario();
                     break;
                 case 2:
                     crearCuenta();
-                    Menu.cerrarSistema();
+                    Usuario.cargarUsuarios();
                     break;
                 case 3:
                     Menu.cerrarSistema();
@@ -27,15 +27,20 @@ public class InicioUsuario {
             }
         }
     }
-    private static void iniciarSesionYManejarFinanzas() {
+
+    private static void iniciarSesionUsuario() {
         Usuario usuario = Usuario.iniciarSesion();
         if (usuario != null) {
-            Categorias.inicializarCategorias();
-            Menu menu = new Menu(Categorias.getCategorias(), Categorias.getProductosPorCategoria());
-            Finanzas finanzas = new Finanzas();
-            Finanzas.setSaldoActual(usuario);
-            Menu.ejecutarMenuUsuario(usuario, menu, finanzas);
+            inicializarSistemaUsuario(usuario);
         }
+    }
+
+    private static void inicializarSistemaUsuario(Usuario usuario) {
+        Categorias.inicializarCategorias();
+        Menu menu = new Menu(Categorias.getCategorias(), Categorias.getProductosPorCategoria());
+        Finanzas finanzas = new Finanzas();
+        Finanzas.setSaldoActual(usuario);
+        Menu.ejecutarMenuUsuario(usuario, menu, finanzas);
     }
 
     private static int obtenerOpcionUsuario() {
@@ -48,14 +53,12 @@ public class InicioUsuario {
     }
 
     public static void crearCuenta() {
-        Scanner scanner = new Scanner(System.in);
-
-        String nombre = obtenerNombreValido(scanner);
-        String correo = obtenerCorreoValido(scanner);
+        String nombre = obtenerNombreValido();
+        String correo = obtenerCorreoValido();
         String contrasena = ValidarEntradaUsuario.obtenerContrasenaValida(scanner);
 
-        System.out.println("¿Desea continuar con la creación de la cuenta? El sistéma se cerrará de forma automática (s para confirmar)");
-        String respuesta = scanner.nextLine().toLowerCase();
+        System.out.println("¿Desea continuar con la creación de la cuenta? (s para confirmar)");
+        String respuesta = scanner.nextLine().trim().toLowerCase();
 
         if (respuesta.equals("s")) {
             Usuario nuevoUsuario = new Usuario(nombre, correo, contrasena);
@@ -65,7 +68,7 @@ public class InicioUsuario {
         }
     }
 
-    private static String obtenerNombreValido(Scanner scanner) {
+    private static String obtenerNombreValido() {
         String nombre;
 
         do {
@@ -80,8 +83,9 @@ public class InicioUsuario {
         return nombre;
     }
 
-    private static String obtenerCorreoValido(Scanner scanner) {
+    private static String obtenerCorreoValido() {
         String correo;
+
         do {
             System.out.print("Ingresa tu correo electrónico: ");
             correo = scanner.nextLine().trim().toLowerCase();
