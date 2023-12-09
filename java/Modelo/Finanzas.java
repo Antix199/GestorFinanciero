@@ -3,6 +3,7 @@ package Modelo;
 import Datos.DatosGastos;
 import Datos.Saldo;
 
+import javax.swing.*;
 import java.util.*;
 
 public class Finanzas {
@@ -16,18 +17,10 @@ public class Finanzas {
     private static ValidarEntradaUsuario validador = new ValidarEntradaUsuario();
 
 
-
-
-    protected void anadirDinero(Usuario usuario) {
-        System.out.print("Ingresa la cantidad a añadir: $");
-        double cantidadAAnadir = validador.validarDouble();
-        if (cantidadAAnadir > 0){
-            saldoActual += cantidadAAnadir;
-        }else{
-            System.out.println("No puedes añadir una cantidad negativa o nula");
-        }
-
+    public static void anadirDinero(Usuario usuario, double monto) {
+        saldoActual += monto;
     }
+
 
     public static double getSaldoActual() {
         return saldoActual;

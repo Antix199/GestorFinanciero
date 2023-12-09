@@ -11,7 +11,7 @@ public class Saldo {
 
     private static final String rutaArchivo = System.getProperty("user.dir") + File.separator + "saldoActual_por_usuario";
 
-    public static void guardarSaldolCSV(Usuario usuario) {
+    public static void guardarSaldoCSV(Usuario usuario) {
         try {
             Path path = Paths.get(rutaArchivo);
 

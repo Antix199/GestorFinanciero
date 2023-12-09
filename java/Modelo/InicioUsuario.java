@@ -1,5 +1,7 @@
 package Modelo;
 
+import javax.swing.*;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class InicioUsuario {
@@ -13,11 +15,8 @@ public class InicioUsuario {
 
             switch (opcion) {
                 case 1:
-                    iniciarSesionUsuario();
                     break;
                 case 2:
-                    crearCuenta();
-                    Usuario.cargarUsuarios();
                     break;
                 case 3:
                     Menu.cerrarSistema();
@@ -28,19 +27,29 @@ public class InicioUsuario {
         }
     }
 
-    private static void iniciarSesionUsuario() {
-        Usuario usuario = Usuario.iniciarSesion();
-        if (usuario != null) {
-            inicializarSistemaUsuario(usuario);
+    public static Usuario iniciarSesion(String correo, String contrasena) {
+        Optional<Usuario> usuarioOptional = Usuario.buscarUsuarioPorCorreo(correo);
+
+        if (usuarioOptional.isPresent()) {
+            Usuario usuario = usuarioOptional.get();
+            if (verificarContrasena(usuario, contrasena)) {
+                return usuario;
+            }
         }
+
+        return null;
+    }
+
+    private static boolean verificarContrasena(Usuario usuario, String contrasena) {
+        return usuario.getContrasena().equals(contrasena);
     }
 
     private static void inicializarSistemaUsuario(Usuario usuario) {
         Categorias.inicializarCategorias();
-        Menu menu = new Menu(Categorias.getCategorias(), Categorias.getProductosPorCategoria());
+        Menu menu = new Menu(Categorias.getCategorias(), Categorias.getProductosPorCategoria());//borrar
         Finanzas finanzas = new Finanzas();
         Finanzas.setSaldoActual(usuario);
-        Menu.ejecutarMenuUsuario(usuario, menu, finanzas);
+        Menu.ejecutarMenuUsuario(usuario, menu, finanzas);//borrar
     }
 
     private static int obtenerOpcionUsuario() {
@@ -52,51 +61,7 @@ public class InicioUsuario {
         }
     }
 
-    public static void crearCuenta() {
-        String nombre = obtenerNombreValido();
-        String correo = obtenerCorreoValido();
-        String contrasena = ValidarEntradaUsuario.obtenerContrasenaValida(scanner);
 
-        System.out.println("¿Desea continuar con la creación de la cuenta? (s para confirmar)");
-        String respuesta = scanner.nextLine().trim().toLowerCase();
 
-        if (respuesta.equals("s")) {
-            Usuario nuevoUsuario = new Usuario(nombre, correo, contrasena);
-            Usuario.guardarUsuario(nuevoUsuario);
-        } else {
-            System.out.println("Creación de cuenta cancelada.");
-        }
-    }
 
-    private static String obtenerNombreValido() {
-        String nombre;
-
-        do {
-            System.out.print("Ingresa tu nombre: ");
-            nombre = scanner.nextLine().trim();
-
-            if (nombre.isEmpty()) {
-                System.out.println("El nombre no puede estar vacío, Por favor, inténtalo de nuevo.");
-            }
-        } while (nombre.isEmpty());
-
-        return nombre;
-    }
-
-    private static String obtenerCorreoValido() {
-        String correo;
-
-        do {
-            System.out.print("Ingresa tu correo electrónico: ");
-            correo = scanner.nextLine().trim().toLowerCase();
-
-            if (!ValidarEntradaUsuario.validarFormatoCorreo(correo)) {
-                System.out.println("El formato del correo electrónico no es válido. Por favor, inténtalo de nuevo.");
-            } else if (Usuario.correoExiste(correo)) {
-                System.out.println("Correo ya en uso. Usa otro.");
-            }
-        } while (!ValidarEntradaUsuario.validarFormatoCorreo(correo) || Usuario.correoExiste(correo));
-
-        return correo;
-    }
 }

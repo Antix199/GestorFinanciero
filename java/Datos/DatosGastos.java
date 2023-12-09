@@ -6,6 +6,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class DatosGastos {
 
     public static void guardarGastoEnCSV(String nombre, double cantidad, String categoria, String correoUsuario) {
@@ -55,7 +56,7 @@ public class DatosGastos {
         try (BufferedReader reader = new BufferedReader(new FileReader(rutaArchivo))) {
             procesarArchivo(reader, gastos, correoUsuario);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("No se encontro el archivo de gastos del usuario");
         }
 
         return gastos;
