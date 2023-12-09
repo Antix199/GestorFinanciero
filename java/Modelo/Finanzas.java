@@ -3,7 +3,6 @@ package Modelo;
 import Datos.DatosGastos;
 import Datos.Saldo;
 
-import javax.swing.*;
 import java.util.*;
 
 public class Finanzas {
@@ -45,7 +44,7 @@ public class Finanzas {
         }
     }
 
-    private static Map<String, List<Gasto>> agruparGastosPorCategoria(List<Gasto> gastos) {
+    public static Map<String, List<Gasto>> agruparGastosPorCategoria(List<Gasto> gastos) {
         Map<String, List<Gasto>> gastosPorCategoria = new HashMap<>();
 
         for (Gasto gasto : gastos) {
@@ -70,19 +69,13 @@ public class Finanzas {
         return scanner.nextLine();
     }
 
-    public void restarDinero(Usuario usuario, Scanner scanner) {
-        System.out.print("Ingresa la cantidad a restar: $");
-        double cantidadARestar = validador.validarDouble();
+    public static void restarDinero(Usuario usuario, double cantidad, int categoria, String nombreProducto) {
 
-        if (esCantidadValida(cantidadARestar)) {
-            mostrarCategoriasDisponibles();
 
-            System.out.print("Selecciona la categoría en la que gastaste: ");
-            int categoriaSeleccionada = validador.validarInt();
+        if (esCantidadValida(cantidad)) {
 
-            if (esCategoriaValida(categoriaSeleccionada)) {
-                String nombreProducto = obtenerNombreProducto(scanner);
-                registrarGasto(cantidadARestar, categoriaSeleccionada, nombreProducto, usuario);
+            if (esCategoriaValida(categoria)) {
+                registrarGasto(cantidad, categoria, nombreProducto, usuario);
             } else {
                 System.out.println("Categoría no válida.");
             }
@@ -91,7 +84,7 @@ public class Finanzas {
         }
     }
 
-    private boolean esCantidadValida(double cantidad) {
+    public static boolean esCantidadValida(double cantidad) {
         if (cantidad > 0) {
             return true;
         } else {
@@ -108,11 +101,11 @@ public class Finanzas {
         }
     }
 
-    private boolean esCategoriaValida(int categoriaSeleccionada) {
+    public static boolean esCategoriaValida(int categoriaSeleccionada) {
         return categoriaSeleccionada >= 1 && categoriaSeleccionada <= numCategorias;
     }
 
-    private void registrarGasto(double cantidadARestar, int categoriaSeleccionada, String nombreProducto, Usuario usuario) {
+    private static void registrarGasto(double cantidadARestar, int categoriaSeleccionada, String nombreProducto, Usuario usuario) {
         saldoActual -= cantidadARestar;
         gastosPorCategoria[categoriaSeleccionada - 1] += cantidadARestar;
         totalGastado += cantidadARestar;

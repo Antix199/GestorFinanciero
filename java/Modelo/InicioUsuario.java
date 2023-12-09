@@ -45,7 +45,7 @@ public class InicioUsuario {
     }
 
     private static void inicializarSistemaUsuario(Usuario usuario) {
-        Categorias.inicializarCategorias();
+
         Menu menu = new Menu(Categorias.getCategorias(), Categorias.getProductosPorCategoria());//borrar
         Finanzas finanzas = new Finanzas();
         Finanzas.setSaldoActual(usuario);

@@ -54,7 +54,7 @@ public class GuiPrincipal extends JFrame {
         verGastosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ManejoGuis.abrirGuiVerGasto();
+                ManejoGuis.abrirGuiVerGasto(usuario);
             }
         });
         registrarIngresoButton.addActionListener(new ActionListener() {

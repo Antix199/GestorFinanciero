@@ -1,9 +1,9 @@
 package Guis;
 
 import Modelo.Usuario;
-
 import javax.swing.*;
 import java.awt.*;
+
 
 public class ManejoGuis {
 
@@ -39,10 +39,10 @@ public class ManejoGuis {
         guiRegistrarIngreso.setVisible(true);
     }
 
-    public static void abrirGuiVerGasto() {
-        GuiVerGastos guiVerGastos = new GuiVerGastos();
+    public static void abrirGuiVerGasto(Usuario usuario) {
+        GuiVerGastos guiVerGastos = new GuiVerGastos(usuario);
         guiVerGastos.setSize(400, 700);
-        guiVerGastos.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        guiVerGastos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         guiVerGastos.setLocationRelativeTo(null);
         guiVerGastos.setVisible(true);
     }

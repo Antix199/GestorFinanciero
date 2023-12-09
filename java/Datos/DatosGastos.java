@@ -10,6 +10,7 @@ import java.util.List;
 public class DatosGastos {
 
     public static void guardarGastoEnCSV(String nombre, double cantidad, String categoria, String correoUsuario) {
+
         String rutaArchivo = obtenerRutaArchivo(correoUsuario);
 
         try {

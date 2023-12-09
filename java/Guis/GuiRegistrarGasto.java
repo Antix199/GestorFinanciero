@@ -3,6 +3,7 @@ package Guis;
 import Datos.Saldo;
 import Modelo.Finanzas;
 import Modelo.Usuario;
+import Modelo.Categorias;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -26,12 +27,14 @@ public class GuiRegistrarGasto extends JFrame {
         confirmarGasto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(true){
+
+                if (registrarGasto(usuario)) {
                     Saldo.guardarSaldoCSV(usuario);
                     Finanzas.setSaldoActual(usuario);
                     ManejoGuis.abrirGuiPrincipal(usuario);
                     dispose();
                 }
+
             }
         });
         cancelarRegistroButton.addActionListener(new ActionListener() {
@@ -43,5 +46,31 @@ public class GuiRegistrarGasto extends JFrame {
                 }
             }
         });
+
+
     }
+
+
+    //Arreglar método, control espacios vacios, categorias inválidas y separar de forma modular.
+    private boolean registrarGasto(Usuario usuario) {
+        try {
+            double monto = Double.parseDouble(montoGasto.getText());
+            String nombre = nombreGasto.getText();
+            int categoriaSeleccionada = Integer.parseInt(categoriaGasto.getText());
+
+            if (Finanzas.esCantidadValida(monto) && Finanzas.esCategoriaValida(categoriaSeleccionada)) {
+                Finanzas.restarDinero(usuario, monto, categoriaSeleccionada, nombre);
+                JOptionPane.showMessageDialog(this, "Gasto registrado con éxito");
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(this, "Entrada inválida. Verifica el monto y la categoría.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        } catch (NumberFormatException e) {
+
+            JOptionPane.showMessageDialog(this, "Entrada inválida.\n Asegúrate de ingresar números \n en los campos de monto y categoría.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+
 }

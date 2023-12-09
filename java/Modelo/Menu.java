@@ -46,8 +46,6 @@ class Menu {
                 case 1:
                     break;
                 case 2:
-                    Scanner scanner = new Scanner(System.in);
-                    finanzas.restarDinero(usuario, scanner);
                     break;
                 case 3:
                     List<Gasto> gastos = DatosGastos.cargarGastos(usuario.getCorreo());
