@@ -7,7 +7,9 @@ import Modelo.Finanzas;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -44,6 +46,25 @@ public class GuiVerGastos extends JFrame {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Gastos por Categoría");
         construirArbolGastosPorCategoria(gastosPorCategoria, root);
         actualizarModeloArbol(tree, root);
+
+        // Aquí es donde agregas el renderizador de celdas personalizado
+        tree.setCellRenderer(new DefaultTreeCellRenderer() {
+            @Override
+            public Component getTreeCellRendererComponent(JTree tree, Object value,
+                                                          boolean selected, boolean expanded,
+                                                          boolean leaf, int row, boolean hasFocus) {
+                Component component = super.getTreeCellRendererComponent(tree, value, selected,
+                        expanded, leaf, row, hasFocus);
+                if (component instanceof JLabel && value instanceof DefaultMutableTreeNode) {
+                    DefaultMutableTreeNode node = (DefaultMutableTreeNode)value;
+                    if (node.getUserObject() instanceof String) {
+                        String text = (String) node.getUserObject();
+                        ((JLabel)component).setText("<html><p width=\"200\">" + text + "</p></html>");
+                    }
+                }
+                return component;
+            }
+        });
     }
 
 
