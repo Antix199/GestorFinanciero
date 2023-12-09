@@ -6,9 +6,11 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class DatosGastos {
 
     public static void guardarGastoEnCSV(String nombre, double cantidad, String categoria, String correoUsuario) {
+
         String rutaArchivo = obtenerRutaArchivo(correoUsuario);
 
         try {
@@ -55,7 +57,7 @@ public class DatosGastos {
         try (BufferedReader reader = new BufferedReader(new FileReader(rutaArchivo))) {
             procesarArchivo(reader, gastos, correoUsuario);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("No se encontro el archivo de gastos del usuario");
         }
 
         return gastos;
@@ -63,18 +65,13 @@ public class DatosGastos {
 
     private static void procesarArchivo(BufferedReader reader, List<Gasto> gastos, String correoUsuario) throws IOException {
         String linea;
-        boolean primeraLinea = true;
-
+        if ((linea = reader.readLine()) != null) {
+            procesarLinea(linea, gastos, correoUsuario);
+        }
         while ((linea = reader.readLine()) != null) {
-            if (primeraLinea) {
-                primeraLinea = false;
-                continue;
-            }
-
             procesarLinea(linea, gastos, correoUsuario);
         }
     }
-
     private static void procesarLinea(String linea, List<Gasto> gastos, String correoUsuario) {
         String[] partes = linea.split(",");
         if (partes.length == 3) {
