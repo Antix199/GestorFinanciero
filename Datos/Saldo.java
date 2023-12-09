@@ -7,11 +7,15 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 
+import static Modelo.Usuario.carpetaUsuarios;
+
 public class Saldo {
 
-    private static final String rutaArchivo = System.getProperty("user.dir") + File.separator + "saldoActual_por_usuario";
+    private static final String rutaArchivo = System.getProperty("user.dir") + File.separator + carpetaUsuarios + File.separator + "saldoActual_por_usuario.csv";
 
-    public static void guardarSaldolCSV(Usuario usuario) {
+
+
+    public static void guardarSaldoCSV(Usuario usuario) {
         try {
             Path path = Paths.get(rutaArchivo);
 

@@ -44,19 +44,15 @@ class Menu {
             int opcion = validador.validarInt();
             switch (opcion) {
                 case 1:
-                    finanzas.anadirDinero(usuario);
                     break;
                 case 2:
-                    Scanner scanner = new Scanner(System.in);
-                    finanzas.restarDinero(usuario, scanner);
                     break;
                 case 3:
                     List<Gasto> gastos = DatosGastos.cargarGastos(usuario.getCorreo());
                     Finanzas.mostrarGastosPorCategoria(gastos);
-                    CalculadoraPorcentajeGastos.mostrarPorcentajeGastos(gastos);
                     break;
                 case 4:
-                    Saldo.guardarSaldolCSV(usuario);
+                    Saldo.guardarSaldoCSV(usuario);
                     cerrarSistema();
                     break;
                 default:

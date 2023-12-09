@@ -8,32 +8,18 @@ import java.util.*;
 public class Finanzas {
 
     public static double saldoActual = 0;
-    private static final int numCategorias = 5;
+    private static int numCategorias = 5;
     private static double[] gastosPorCategoria = new double[numCategorias];
     private static double totalGastado = 0;
-    private static ArrayList<String>[] productosPorCategoria = new ArrayList[numCategorias];
+    private static ArrayList<String>[] productosPorCategoria = Categorias.getProductosPorCategoria();
     private static String[] categorias = Categorias.getCategorias();
     private static ValidarEntradaUsuario validador = new ValidarEntradaUsuario();
 
-    // Añadir un bloque estático para inicializar productosPorCategoria
-    static {
-        for (int i = 0; i < numCategorias; i++) {
-            productosPorCategoria[i] = new ArrayList<>();
-        }
+
+    public static void anadirDinero(Usuario usuario, double monto) {
+        saldoActual += monto;
     }
 
-
-
-    protected void anadirDinero(Usuario usuario) {
-        System.out.print("Ingresa la cantidad a añadir: $");
-        double cantidadAAnadir = validador.validarDouble();
-        if (cantidadAAnadir > 0){
-            saldoActual += cantidadAAnadir;
-        }else{
-            System.out.println("No puedes añadir una cantidad negativa o nula");
-        }
-
-    }
 
     public static double getSaldoActual() {
         return saldoActual;
@@ -58,7 +44,7 @@ public class Finanzas {
         }
     }
 
-    private static Map<String, List<Gasto>> agruparGastosPorCategoria(List<Gasto> gastos) {
+    public static Map<String, List<Gasto>> agruparGastosPorCategoria(List<Gasto> gastos) {
         Map<String, List<Gasto>> gastosPorCategoria = new HashMap<>();
 
         for (Gasto gasto : gastos) {
@@ -83,19 +69,13 @@ public class Finanzas {
         return scanner.nextLine();
     }
 
-    public void restarDinero(Usuario usuario, Scanner scanner) {
-        System.out.print("Ingresa la cantidad a restar: $");
-        double cantidadARestar = validador.validarDouble();
+    public static void restarDinero(Usuario usuario, double cantidad, int categoria, String nombreProducto) {
 
-        if (esCantidadValida(cantidadARestar)) {
-            mostrarCategoriasDisponibles();
 
-            System.out.print("Selecciona la categoría en la que gastaste: ");
-            int categoriaSeleccionada = validador.validarInt();
+        if (esCantidadValida(cantidad)) {
 
-            if (esCategoriaValida(categoriaSeleccionada)) {
-                String nombreProducto = obtenerNombreProducto(scanner);
-                registrarGasto(cantidadARestar, categoriaSeleccionada, nombreProducto, usuario);
+            if (esCategoriaValida(categoria)) {
+                registrarGasto(cantidad, categoria, nombreProducto, usuario);
             } else {
                 System.out.println("Categoría no válida.");
             }
@@ -104,7 +84,7 @@ public class Finanzas {
         }
     }
 
-    private boolean esCantidadValida(double cantidad) {
+    public static boolean esCantidadValida(double cantidad) {
         if (cantidad > 0) {
             return true;
         } else {
@@ -121,11 +101,11 @@ public class Finanzas {
         }
     }
 
-    private boolean esCategoriaValida(int categoriaSeleccionada) {
+    public static boolean esCategoriaValida(int categoriaSeleccionada) {
         return categoriaSeleccionada >= 1 && categoriaSeleccionada <= numCategorias;
     }
 
-    public static void registrarGasto(double cantidadARestar, int categoriaSeleccionada, String nombreProducto, Usuario usuario) {
+    private static void registrarGasto(double cantidadARestar, int categoriaSeleccionada, String nombreProducto, Usuario usuario) {
         saldoActual -= cantidadARestar;
         gastosPorCategoria[categoriaSeleccionada - 1] += cantidadARestar;
         totalGastado += cantidadARestar;

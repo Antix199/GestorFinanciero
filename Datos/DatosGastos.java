@@ -6,6 +6,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static Modelo.Usuario.carpetaUsuarios;
+
 
 public class DatosGastos {
 
@@ -30,7 +32,7 @@ public class DatosGastos {
     }
 
     private static String obtenerRutaArchivo(String correoUsuario) {
-        String rutaDirectorio = System.getProperty("user.dir") + File.separator + "gastos_por_usuarios";
+        String rutaDirectorio = System.getProperty("user.dir") + File.separator + carpetaUsuarios + File.separator +  "gastos_por_usuarios";
         File directorio = new File(rutaDirectorio);
         directorio.mkdirs();
 

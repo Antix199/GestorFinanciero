@@ -1,10 +1,11 @@
 package Modelo;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 public class Categorias {
-    private static final int numCategorias = 5;
-    private static final String[] categorias = new String[numCategorias];
-    private static final ArrayList<String>[] productosPorCategoria = new ArrayList[numCategorias];
+    private static int numCategorias = 5;
+    private static String[] categorias = new String[numCategorias];
+    private static ArrayList<String>[] productosPorCategoria = new ArrayList[numCategorias];
 
 
     public static void inicializarCategorias() {
@@ -25,5 +26,7 @@ public class Categorias {
     public static ArrayList<String>[] getProductosPorCategoria() {
         return productosPorCategoria;
     }
+
+
 }
 
