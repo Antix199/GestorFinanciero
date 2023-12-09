@@ -35,7 +35,6 @@ public class Usuario {
         this.contrasena = contrasena;
     }
 
-
     static {
         File carpeta = new File(carpetaUsuarios);
         if (!carpeta.exists()) {
