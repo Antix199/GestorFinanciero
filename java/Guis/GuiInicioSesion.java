@@ -1,6 +1,6 @@
 package Guis;
 
-import Modelo.InicioUsuario;
+import Modelo.CuentaUsuario;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,7 +28,7 @@ public class GuiInicioSesion extends JFrame {
                 String correo = correoText.getText().trim().toLowerCase();
                 String contrasena= new String(contrasenaText.getPassword());
 
-                Modelo.Usuario usuario = InicioUsuario.iniciarSesion(correo, contrasena);
+                Modelo.Usuario usuario = CuentaUsuario.iniciarSesion(correo, contrasena);
 
                 if (usuario != null) {
                     // Inicio de sesión exitoso

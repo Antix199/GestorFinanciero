@@ -1,24 +1,10 @@
 package Modelo;
 
 import javax.swing.*;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ValidarEntradaUsuario {
-    private Scanner scanner = new Scanner(System.in);
 
-    public double validarDouble() {
-        while (true) {
-            try {
-                double valor = scanner.nextDouble();
-                scanner.nextLine();
-                return valor;
-            } catch (InputMismatchException e) {
-                System.out.println("Entrada no válida. Por favor, ingresa un número.");
-                scanner.nextLine();
-            }
-        }
-    }
     public static boolean validarDouble(JTextField valor) {
         try {
             Double.parseDouble(valor.getText());
@@ -29,16 +15,13 @@ public class ValidarEntradaUsuario {
         }
     }
 
-    public int validarInt() {
-        while (true) {
-            try {
-                int valor = scanner.nextInt();
-                scanner.nextLine();
-                return valor;
-            } catch (InputMismatchException e) {
-                System.out.println("Entrada no válida. Por favor, ingresa un número entero.");
-                scanner.nextLine();
-            }
+    public static boolean validarInt(JTextField valor) {
+        try {
+            Integer.parseInt(valor.getText());
+            return true;
+        } catch (NumberFormatException e) {
+            System.out.println("Entrada no válida. Por favor, ingresa un número entero.");
+            return false;
         }
     }
 
@@ -52,11 +35,22 @@ public class ValidarEntradaUsuario {
     }
 
     public static boolean validarCorreo(String correo) {
-        return validarFormatoCorreo(correo) && !Usuario.correoExiste(correo);
+        return validarFormatoCorreo(correo) && !CuentaUsuario.correoExiste(correo);
     }
     public static boolean validarNombre(String nombre) {
         return !nombre.trim().isEmpty();
     }
 
 
+
+
+    public static boolean esCantidadValida(JTextField valor) {
+        double cantidad  = Double.parseDouble(valor.getText());
+        if (cantidad > 0) {
+            return true;
+        } else {
+            System.out.println("La cantidad debe ser mayor que cero.");
+            return false;
+        }
+    }
 }

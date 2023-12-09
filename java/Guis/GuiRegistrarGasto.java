@@ -3,7 +3,7 @@ package Guis;
 import Datos.Saldo;
 import Modelo.Finanzas;
 import Modelo.Usuario;
-import Modelo.Categorias;
+import Modelo.ValidarEntradaUsuario;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -40,7 +40,7 @@ public class GuiRegistrarGasto extends JFrame {
         cancelarRegistroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(ManejoGuis.cerrarVentana()){
+                if (ManejoGuis.cerrarVentana()) {
                     ManejoGuis.abrirGuiPrincipal(usuario);
                     dispose();
                 }
@@ -50,27 +50,42 @@ public class GuiRegistrarGasto extends JFrame {
 
     }
 
+    private boolean validarEntrada() {
+        return ValidarEntradaUsuario.validarDouble(montoGasto) &&
+                ValidarEntradaUsuario.esCantidadValida(montoGasto) &&
+                ValidarEntradaUsuario.validarNombre(nombreGasto.getText()) &&
+                ValidarEntradaUsuario.validarInt(categoriaGasto);
+    }
 
-    //Arreglar método, control espacios vacios, categorias inválidas y separar de forma modular.
+    private void mostrarMensajeError(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void mostrarMensajeExito(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje);
+    }
+
     private boolean registrarGasto(Usuario usuario) {
         try {
-            double monto = Double.parseDouble(montoGasto.getText());
-            String nombre = nombreGasto.getText();
-            int categoriaSeleccionada = Integer.parseInt(categoriaGasto.getText());
+            if (validarEntrada()) {
+                double monto = Double.parseDouble(montoGasto.getText());
+                String nombre = nombreGasto.getText();
+                int categoria = Integer.parseInt(categoriaGasto.getText());
 
-            if (Finanzas.esCantidadValida(monto) && Finanzas.esCategoriaValida(categoriaSeleccionada)) {
-                Finanzas.restarDinero(usuario, monto, categoriaSeleccionada, nombre);
-                JOptionPane.showMessageDialog(this, "Gasto registrado con éxito");
-                return true;
+                if (Finanzas.esCategoriaValida(categoria)) {
+                    Finanzas.registrarGasto(monto, categoria, nombre, usuario);
+                    mostrarMensajeExito("Gasto registrado con éxito");
+                    return true;
+                } else {
+                    mostrarMensajeError("Categoría inválida");
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "Entrada inválida. Verifica el monto y la categoría.", "Error", JOptionPane.ERROR_MESSAGE);
-                return false;
+                mostrarMensajeError("Entrada inválida.\n Asegúrate de ingresar números \n en los campos de monto y categoría.");
             }
         } catch (NumberFormatException e) {
-
-            JOptionPane.showMessageDialog(this, "Entrada inválida.\n Asegúrate de ingresar números \n en los campos de monto y categoría.", "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
+            mostrarMensajeError("Entrada inválida.\n Asegúrate de ingresar números \n en los campos de monto y categoría.");
         }
+        return false;
     }
 
 }

@@ -10,13 +10,13 @@ import java.util.List;
 public class DatosGastos {
 
     public static void guardarGastoEnCSV(String nombre, double cantidad, String categoria, String correoUsuario) {
-
         String rutaArchivo = obtenerRutaArchivo(correoUsuario);
 
         try {
             FileWriter escritor = new FileWriter(rutaArchivo, true);
 
             if (!archivoExiste(rutaArchivo)) {
+                // Write the header only if the file doesn't exist
                 escribirEncabezado(escritor);
             }
 
@@ -29,6 +29,8 @@ public class DatosGastos {
         }
     }
 
+
+
     private static String obtenerRutaArchivo(String correoUsuario) {
         String rutaDirectorio = System.getProperty("user.dir") + File.separator + "gastos_por_usuarios";
         File directorio = new File(rutaDirectorio);
@@ -39,12 +41,13 @@ public class DatosGastos {
 
     private static boolean archivoExiste(String rutaArchivo) {
         File archivo = new File(rutaArchivo);
-        return archivo.exists();
+        return archivo.exists() && archivo.length() > 0; // Que no este vacío
     }
 
     private static void escribirEncabezado(FileWriter escritor) throws IOException {
         escritor.write("Nombre del Producto,Precio,Categoria\n");
     }
+
 
     private static void escribirGasto(FileWriter escritor, String nombre, double cantidad, String categoria) throws IOException {
         escritor.write(nombre + "," + cantidad + "," + categoria + "\n");

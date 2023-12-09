@@ -1,6 +1,6 @@
 package Guis;
 
-import Modelo.Usuario;
+import Modelo.CuentaUsuario;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -26,7 +26,7 @@ public class GuiCrearCuenta extends JFrame {
                 String correo = correoUsuario.getText().trim().toLowerCase();
                 String contrasena = new String(contrasenaUsuario.getPassword());
 
-                if (Usuario.crearCuenta(nombre, correo, contrasena)) {
+                if (CuentaUsuario.crearCuenta(nombre, correo, contrasena)) {
                     dispose();
 
                 }

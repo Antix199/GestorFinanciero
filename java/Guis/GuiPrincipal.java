@@ -1,10 +1,6 @@
 package Guis;
 import Datos.DatosGastos;
-import Datos.Saldo;
-import Modelo.CalculadoraPorcentajeGastos;
-import Modelo.Usuario;
-import Modelo.Gasto;
-import Modelo.Finanzas;
+import Modelo.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -37,6 +33,8 @@ public class GuiPrincipal extends JFrame {
         setContentPane(principal);
 
         this.usuario = usuario;
+
+        Categorias.inicializarCategorias();
         ManejoGuis.mostrarIcono(rutaImagen,grafico,100);
         ManejoGuis.nombrarUsuario(usuario,nombreUsuario);
         mostrarPorcentajeGastos();
