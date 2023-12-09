@@ -32,15 +32,6 @@ public class CuentaUsuario {
         return usuario.getContrasena().equals(contrasena);
     }
 
-    private static int obtenerOpcionUsuario() {
-        try {
-            return Integer.parseInt(scanner.nextLine());
-        } catch (NumberFormatException e) {
-            System.out.println("Error: Ingresa un número válido.");
-            return obtenerOpcionUsuario();
-        }
-    }
-
 
     public static boolean correoExiste(String correo) {
         List<Usuario> usuarios = DatosUsuario.cargarUsuarios(rutaUsuarios);
@@ -53,9 +44,27 @@ public class CuentaUsuario {
             DatosUsuario.registrarUsuario(rutaUsuarios,new Usuario(nombre, correo, contrasena));
             return true;
         } else {
-            JOptionPane.showMessageDialog(null,"Error: Los datos ingresados no son válidos. \n Verifica la información proporcionada.");
+            String mensajeError = mensajeErrorCrearCuenta(nombre, correo, contrasena);
+            JOptionPane.showMessageDialog(null, mensajeError);
             return false;
         }
+    }
+    private static String mensajeErrorCrearCuenta(String nombre, String correo, String contrasena) {
+        String mensajeError = "Error: Los datos ingresados no son válidos. \n Verifica la información proporcionada:\n";
+
+        if (!ValidarEntradaUsuario.validarNombre(nombre)) {
+            mensajeError += "- El nombre no es válido.\n";
+        }
+
+        if (!ValidarEntradaUsuario.validarCorreo(correo)) {
+            mensajeError += "- El correo electrónico no es válido o ya está en uso.\n";
+        }
+
+        if (!ValidarEntradaUsuario.validarContrasena(contrasena)) {
+            mensajeError += "- La contraseña no es válida, mínimo 5 carácteres.\n";
+        }
+
+        return mensajeError;
     }
 
     public static Optional<Usuario> buscarUsuarioPorCorreo(String correo) {
