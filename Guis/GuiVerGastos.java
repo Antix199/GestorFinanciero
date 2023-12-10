@@ -15,6 +15,8 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
 
+import static Modelo.CalculadoraPorcentajeGastos.calcularTotalGastadoPorCategoria;
+
 public class GuiVerGastos extends JFrame {
     private JButton cerrarVentana;
     private JPanel verGastos;
@@ -47,7 +49,6 @@ public class GuiVerGastos extends JFrame {
         construirArbolGastosPorCategoria(gastosPorCategoria, root);
         actualizarModeloArbol(tree, root);
 
-        // Aquí es donde agregas el renderizador de celdas personalizado
         tree.setCellRenderer(new DefaultTreeCellRenderer() {
             @Override
             public Component getTreeCellRendererComponent(JTree tree, Object value,
@@ -81,6 +82,9 @@ public class GuiVerGastos extends JFrame {
 
     private static DefaultMutableTreeNode construirNodoCategoria(String categoria, List<Gasto> gastosEnCategoria) {
         DefaultMutableTreeNode categoriaNode = new DefaultMutableTreeNode(categoria);
+
+        double totalPorCategoria = calcularTotalGastadoPorCategoria(gastosEnCategoria, categoria);
+        categoriaNode.setUserObject(categoria + ": TOTAL $" + totalPorCategoria);
 
         for (Gasto gasto : gastosEnCategoria) {
             DefaultMutableTreeNode gastoNode = construirNodoGasto(gasto);

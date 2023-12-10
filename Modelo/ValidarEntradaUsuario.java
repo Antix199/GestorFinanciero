@@ -49,6 +49,7 @@ public class ValidarEntradaUsuario {
     }
 
     public static boolean validarNombre(String nombre) {
+
         return !nombre.trim().isEmpty();
     }
 
