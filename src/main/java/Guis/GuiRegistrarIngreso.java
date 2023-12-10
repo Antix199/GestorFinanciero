@@ -31,8 +31,9 @@ public class GuiRegistrarIngreso extends JFrame {
                         dispose();
                     }
 
+                }else{
+                    JOptionPane.showMessageDialog(null,"      Formato inválido \n Porfavor ingrese un número. ","Error", JOptionPane.ERROR_MESSAGE );
                 }
-
             }
         });
         cancelarRegistro.addActionListener(new ActionListener() {
