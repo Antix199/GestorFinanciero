@@ -145,6 +145,7 @@
         </constraints>
         <properties>
           <font size="20"/>
+          <foreground color="-14676117"/>
           <text value="REGISTRAR UN GASTO"/>
         </properties>
       </component>

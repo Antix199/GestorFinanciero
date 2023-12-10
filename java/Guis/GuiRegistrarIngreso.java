@@ -23,8 +23,8 @@ public class GuiRegistrarIngreso extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(ValidarEntradaUsuario.validarDouble(montoIngreso)){
-                    double monto = Double.parseDouble(montoIngreso.getText());
-                    if(ValidarEntradaUsuario.validarDoublePositivo(monto)){
+                    if(ValidarEntradaUsuario.validarDoublePositivo(montoIngreso)){
+                        double monto = Double.parseDouble(montoIngreso.getText());
                         Finanzas.anadirDinero(usuario, monto);
                         Saldo.guardarSaldoCSV(usuario);
                         ManejoGuis.abrirGuiPrincipal(usuario);

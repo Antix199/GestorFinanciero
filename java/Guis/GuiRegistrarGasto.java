@@ -52,7 +52,7 @@ public class GuiRegistrarGasto extends JFrame {
 
     private boolean validarEntrada() {
         return ValidarEntradaUsuario.validarDouble(montoGasto) &&
-                ValidarEntradaUsuario.esCantidadValida(montoGasto) &&
+                ValidarEntradaUsuario.validarDoublePositivo(montoGasto) &&
                 ValidarEntradaUsuario.validarNombre(nombreGasto.getText()) &&
                 ValidarEntradaUsuario.validarInt(categoriaGasto);
     }
@@ -80,10 +80,10 @@ public class GuiRegistrarGasto extends JFrame {
                     mostrarMensajeError("Categoría inválida");
                 }
             } else {
-                mostrarMensajeError("Entrada inválida.\n Asegúrate de ingresar números \n en los campos de monto y categoría.");
+                mostrarMensajeError("Entrada inválida.\n Asegúrate de ingresar valores \n válidos en todos los campos.");
             }
         } catch (NumberFormatException e) {
-            mostrarMensajeError("Entrada inválida.\n Asegúrate de ingresar números \n en los campos de monto y categoría.");
+            mostrarMensajeError("Entrada inválida.\n Asegúrate de ingresar valores  \n válidos en todos los campos.");
         }
         return false;
     }

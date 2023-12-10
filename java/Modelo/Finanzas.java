@@ -52,8 +52,6 @@ public class Finanzas {
         totalGastado += cantidadARestar;
         productosPorCategoria[categoriaSeleccionada - 1].add(nombreProducto);
         String categoria = categorias[categoriaSeleccionada - 1];
-        System.out.println("Gasto registrado en la categoría: " + categoria);
-
         DatosGastos.guardarGastoEnCSV(nombreProducto, cantidadARestar, categoria, usuario.getCorreo());
     }
 }

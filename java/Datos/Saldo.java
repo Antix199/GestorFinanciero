@@ -9,7 +9,7 @@ import java.nio.file.*;
 
 public class Saldo {
 
-    private static final String rutaArchivo = System.getProperty("user.dir") + File.separator + "saldoActual_por_usuario";
+    private static final String rutaArchivo = System.getProperty("user.dir") + "/Usuarios/saldoActual_por_usuario.csv";
 
     public static void guardarSaldoCSV(Usuario usuario) {
         try {
@@ -24,7 +24,7 @@ public class Saldo {
             Files.write(path, nuevaLinea.getBytes(StandardCharsets.UTF_8));
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error de registro de saldo.");
         }
     }
 
@@ -76,7 +76,7 @@ public class Saldo {
             return buscarSaldoUsuario(correoUsuario, contenido);
 
         } catch (IOException | NumberFormatException e) {
-            e.printStackTrace();
+            System.out.println("Error al cargar el saldo de usuario");
         }
 
         return 0.0;

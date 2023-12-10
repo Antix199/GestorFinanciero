@@ -10,9 +10,8 @@ import java.util.Scanner;
 
 public class CuentaUsuario {
 
-    private static String rutaUsuarios = System.getProperty("user.dir") + File.separator + "usuarios.csv";
-
-    private static Scanner scanner = new Scanner(System.in);
+    private static String carpetaUsuarios = System.getProperty("user.dir") + File.separator + "Usuarios";
+    private static String rutaUsuarios = carpetaUsuarios + File.separator + "usuarios.csv";
 
 
     public static Usuario iniciarSesion(String correo, String contrasena) {
@@ -71,5 +70,21 @@ public class CuentaUsuario {
         return DatosUsuario.cargarUsuarios(rutaUsuarios).stream()
                 .filter(usuario -> usuario.getCorreo().equals(correo))
                 .findFirst();
+    }
+
+    private static void crearCarpetaUsuarios() {
+        File carpeta = new File(carpetaUsuarios);
+        if (!carpeta.exists()) {
+            boolean creado = carpeta.mkdir();
+            if (creado) {
+                System.out.println("Carpeta Usuarios creada correctamente.");
+            } else {
+                System.err.println("Error al crear la carpeta Usuarios.");
+            }
+        }
+    }
+
+    static {
+        crearCarpetaUsuarios();
     }
 }

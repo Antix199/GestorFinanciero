@@ -23,16 +23,15 @@ public class DatosGastos {
             escribirGasto(escritor, nombre, cantidad, categoria);
 
             escritor.close();
-            System.out.println("Gasto registrado con éxito.");
+
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("No se pudo registrar el gasto.");
         }
     }
 
 
-
     private static String obtenerRutaArchivo(String correoUsuario) {
-        String rutaDirectorio = System.getProperty("user.dir") + File.separator + "gastos_por_usuarios";
+        String rutaDirectorio = System.getProperty("user.dir") + File.separator + "/Usuarios/gastos_por_usuarios";
         File directorio = new File(rutaDirectorio);
         directorio.mkdirs();
 
@@ -89,6 +88,5 @@ public class DatosGastos {
             System.out.println("Error en el formato de línea del archivo CSV.");
         }
     }
-
 
 }

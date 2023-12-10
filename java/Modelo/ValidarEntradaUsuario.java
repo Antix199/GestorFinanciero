@@ -1,26 +1,16 @@
 package Modelo;
 
 import javax.swing.*;
-import java.util.Scanner;
+
 
 public class ValidarEntradaUsuario {
 
-    public static boolean validarDoublePositivo(double valor){
-        if(valor > 0){
-            return true;
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Error: Ingresa un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-    }
 
     public static boolean validarDouble(JTextField valor) {
         try {
             Double.parseDouble(valor.getText());
             return true;
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "Error: Ingresa un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
@@ -30,7 +20,6 @@ public class ValidarEntradaUsuario {
             Integer.parseInt(valor.getText());
             return true;
         } catch (NumberFormatException e) {
-            System.out.println("Entrada no válida. Por favor, ingresa un número entero.");
             return false;
         }
     }
@@ -54,12 +43,12 @@ public class ValidarEntradaUsuario {
 
 
 
-    public static boolean esCantidadValida(JTextField valor) {
+    public static boolean validarDoublePositivo(JTextField valor) {
         double cantidad  = Double.parseDouble(valor.getText());
         if (cantidad > 0) {
             return true;
         } else {
-            System.out.println("La cantidad debe ser mayor que cero.");
+            JOptionPane.showMessageDialog(null,"Debe ingresar un valor positivo");
             return false;
         }
     }

@@ -3,9 +3,11 @@ import Datos.DatosGastos;
 import Modelo.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+
 
 
 public class GuiPrincipal extends JFrame {
@@ -34,6 +36,7 @@ public class GuiPrincipal extends JFrame {
 
         this.usuario = usuario;
 
+        List<Gasto> gastos = DatosGastos.cargarGastos(usuario.getCorreo());
         Categorias.inicializarCategorias();
         ManejoGuis.mostrarIcono(rutaImagen,grafico,100);
         ManejoGuis.nombrarUsuario(usuario,nombreUsuario);
@@ -75,6 +78,7 @@ public class GuiPrincipal extends JFrame {
         });
     }
 
+
     public static void mostrarPorcentajeGastoEnLabel(List<Gasto> gastos, String categoria, JLabel label) {
         double totalGastado = CalculadoraPorcentajeGastos.calcularTotalGastado(gastos);
 
@@ -95,6 +99,7 @@ public class GuiPrincipal extends JFrame {
         mostrarPorcentajeGastoEnLabel( gastos,"Educación", categoria4);
         mostrarPorcentajeGastoEnLabel( gastos,"Otras", categoria5);
     }
+
 }
 
 

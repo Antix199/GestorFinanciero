@@ -1,6 +1,7 @@
 package Guis;
 
 import Datos.DatosGastos;
+import Modelo.CalculadoraPorcentajeGastos;
 import Modelo.Gasto;
 import Modelo.Usuario;
 import Modelo.Finanzas;
@@ -41,25 +42,33 @@ public class GuiVerGastos extends JFrame {
         List<Gasto> gastos = DatosGastos.cargarGastos(usuario.getCorreo());
         Map<String, List<Gasto>> gastosPorCategoria = Finanzas.agruparGastosPorCategoria(gastos);
 
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Gastos por Categoría");
-        construirArbolGastosPorCategoria(gastosPorCategoria, root);
+        DefaultMutableTreeNode root = construirArbolGastosPorCategoria(gastosPorCategoria);
         actualizarModeloArbol(tree, root);
+
+        tree.setCellRenderer(new ComportamientoCeldasJTree());
     }
 
 
 
-    private static void construirArbolGastosPorCategoria(Map<String, List<Gasto>> gastosPorCategoria, DefaultMutableTreeNode root) {
+
+    private static DefaultMutableTreeNode construirArbolGastosPorCategoria(Map<String, List<Gasto>> gastosPorCategoria) {
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Gastos por Categoría");
+
         for (Map.Entry<String, List<Gasto>> entry : gastosPorCategoria.entrySet()) {
             String categoria = entry.getKey();
             List<Gasto> gastosEnCategoria = entry.getValue();
             DefaultMutableTreeNode categoriaNode = construirNodoCategoria(categoria, gastosEnCategoria);
             root.add(categoriaNode);
         }
-    }
 
+        return root;
+    }
 
     private static DefaultMutableTreeNode construirNodoCategoria(String categoria, List<Gasto> gastosEnCategoria) {
         DefaultMutableTreeNode categoriaNode = new DefaultMutableTreeNode(categoria);
+
+        double totalPorCategoria = CalculadoraPorcentajeGastos.calcularTotalGastadoPorCategoria(gastosEnCategoria, categoria);
+        categoriaNode.setUserObject(categoria + ": TOTAL $" + totalPorCategoria);
 
         for (Gasto gasto : gastosEnCategoria) {
             DefaultMutableTreeNode gastoNode = construirNodoGasto(gasto);
@@ -68,7 +77,6 @@ public class GuiVerGastos extends JFrame {
 
         return categoriaNode;
     }
-
 
     private static DefaultMutableTreeNode construirNodoGasto(Gasto gasto) {
         return new DefaultMutableTreeNode(gasto.getNombre() + ": $" + gasto.getCantidad());
