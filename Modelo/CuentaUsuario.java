@@ -58,7 +58,7 @@ public class CuentaUsuario {
         }
 
         if (!ValidarEntradaUsuario.validarContrasena(contrasena)) {
-            mensajeError += "- La contraseña no es válida, mínimo 5 carácteres.\n";
+            mensajeError += "- La contraseña no es válida, mínimo 5 carácteres y sin espacios.\n";
         }
 
         return mensajeError;

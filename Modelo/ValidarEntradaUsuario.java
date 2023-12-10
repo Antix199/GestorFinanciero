@@ -36,13 +36,14 @@ public class ValidarEntradaUsuario {
     }
 
     public static boolean validarFormatoCorreo(String correo) {
-        String regex = "^[\\w.-]+@[a-zA-Z]+\\.[a-zA-Z]{2,}$";
+        String regex = "^[a-zA-Z0-9]+([\\w.-]*[a-zA-Z0-9])?@[a-zA-Z]+\\.[a-zA-Z]{2,}$";
         return correo.matches(regex);
     }
 
     public static boolean validarContrasena(String contrasena) {
-        return contrasena.length() >= 5;
+        return contrasena.length() >= 5 && !contrasena.contains(" ");
     }
+
 
     public static boolean validarCorreo(String correo) {
         return validarFormatoCorreo(correo) && !CuentaUsuario.correoExiste(correo);

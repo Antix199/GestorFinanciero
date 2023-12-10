@@ -10,9 +10,9 @@ public class Finanzas {
 
     public static double saldoActual = 0;
     private static int numCategorias = 5;
-    private static double[] gastosPorCategoria = new double[numCategorias];
-    private static double totalGastado = 0;
-    private static ArrayList<String>[] productosPorCategoria = Categorias.getProductosPorCategoria();
+    public static double[] gastosPorCategoria = new double[numCategorias];
+    public static double totalGastado = 0;
+    public static ArrayList<String>[] productosPorCategoria = Categorias.getProductosPorCategoria();
     private static String[] categorias = Categorias.getCategorias();
 
 
