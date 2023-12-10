@@ -46,6 +46,14 @@ public class ManejoGuis {
         guiVerGastos.setLocationRelativeTo(null);
         guiVerGastos.setVisible(true);
     }
+
+    public static void abrirGuiCambioContrasena(Usuario usuario) {
+        GuiCambiarContrasena guiCambioContrasena = new GuiCambiarContrasena(usuario);
+        guiCambioContrasena.setSize(400, 700);
+        guiCambioContrasena.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        guiCambioContrasena.setLocationRelativeTo(null);
+        guiCambioContrasena.setVisible(true);
+    }
     public static void abrirGuiRegistrarIngreso(Usuario usuario) {
         GuiRegistrarIngreso guiRegistrarIngreso = new GuiRegistrarIngreso(usuario);
         guiRegistrarIngreso.setSize(400, 700);

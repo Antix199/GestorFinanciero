@@ -21,7 +21,7 @@ public class Usuario {
         this.contrasena = contrasena;
     }
 
-
-
-
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
 }

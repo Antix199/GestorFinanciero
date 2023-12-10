@@ -3,7 +3,6 @@ import Datos.DatosGastos;
 import Modelo.*;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -25,6 +24,7 @@ public class GuiPrincipal extends JFrame {
     private JLabel categoria3;
     private JLabel categoria4;
     private JLabel categoria5;
+    private JButton cambiarContrasena;
 
 
     private String rutaImagen = "src/main/java/Guis/grafico.png";
@@ -74,6 +74,12 @@ public class GuiPrincipal extends JFrame {
                     ManejoGuis.abrirVentanaInicioSesion();
                 }
 
+            }
+        });
+        cambiarContrasena.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ManejoGuis.abrirGuiCambioContrasena(usuario);
             }
         });
     }

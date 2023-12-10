@@ -39,4 +39,23 @@ public class DatosUsuario {
 
         return usuarios;
     }
+
+    public static void actualizarInformacionUsuario(Usuario usuario, String rutaUsuarios) {
+        List<Usuario> usuarios = DatosUsuario.cargarUsuarios(rutaUsuarios);
+
+        usuarios.removeIf(u -> u.getCorreo().equals(usuario.getCorreo()));
+        usuarios.add(usuario);
+
+        guardarUsuarios(usuarios,rutaUsuarios);
+    }
+
+    private static void guardarUsuarios(List<Usuario> usuarios, String rutaUsuarios) {
+        try (PrintWriter escribir = new PrintWriter(new FileWriter(rutaUsuarios))) {
+            for (Usuario usuario : usuarios) {
+                escribir.println(usuario.getNombre() + "," + usuario.getCorreo() + "," + usuario.getContrasena());
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al guardar los usuarios. Detalles: " + e.getMessage());
+        }
+    }
 }

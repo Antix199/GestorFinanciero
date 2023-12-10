@@ -87,4 +87,35 @@ public class CuentaUsuario {
     static {
         crearCarpetaUsuarios();
     }
+
+    public static boolean cambiarContrasena(Usuario usuario, String contrasenaActual, String nuevaContrasena) {
+        if (!verificarContrasena(usuario, contrasenaActual)) {
+            mostrarMensaje("Contraseña actual incorrecta. Inténtalo de nuevo.");
+            return false;
+        }
+
+        if (!ValidarEntradaUsuario.validarContrasena(nuevaContrasena)) {
+            mostrarMensaje("La nueva contraseña no es válida. Mínimo 5 caracteres.");
+            return false;
+        }
+
+        if (!nuevaContrasenaEsDiferente(usuario, nuevaContrasena)) {
+            mostrarMensaje("La nueva contraseña no puede ser igual a la contraseña actual.");
+            return false;
+        }
+
+        usuario.setContrasena(nuevaContrasena);
+        DatosUsuario.actualizarInformacionUsuario(usuario, rutaUsuarios);
+        mostrarMensaje("¡Contraseña cambiada exitosamente!");
+        return true;
+    }
+
+    public static void mostrarMensaje(String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje);
+    }
+
+    public static boolean nuevaContrasenaEsDiferente(Usuario usuario, String nuevaContrasena) {
+        return !usuario.getContrasena().equals(nuevaContrasena);
+    }
+
 }
