@@ -21,5 +21,8 @@ https://docs.google.com/presentation/d/1iTzui8jzOuCfLlJ-v0Y2zMIb7yKU6zOlu80TfGIc
 #
 # PPT 2:
 https://docs.google.com/presentation/d/1Q6nR1zUdADVo0oQU9j1uY28EZvpGxbcaxa7czaEI2SY/edit?usp=sharing
-
+#
+#PPT 3:
+https://github.com/Antix199/GestorFinanciero/blob/591a7f421b4b5b56e10ff7da3936e50c97bb3279/Avance_3_GestorFinanciero.pdf
+#
 # INTEGRANTES: LEANDRO MATAMOROS Y ANTONIA PAREDES.
