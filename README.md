@@ -13,7 +13,7 @@ https://docs.google.com/document/d/1xElwgOJv2ykBlXWq2I8esUEVyohkFz7g8l0-0x0mq0A/
 # Informe_avance2:
 https://docs.google.com/document/d/12acSQeDhovAm-EI-8YgIX5mKOJqS8_VJojBiKgpTrhQ/edit?usp=sharing
 # 
-#Informe_final:
+# Informe_final:
 https://docs.google.com/document/d/180TA1fbc6hvNXBscAzLcpBRpgtM5h-7gCqrfauUhaKo/edit?usp=sharing
 #
 # PPT 1:
